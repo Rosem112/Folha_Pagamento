@@ -1,0 +1,59 @@
+{
+  "name": "Folha de Pagamento | RCONT-SCT",
+  "short_name": "RCONT Folha",
+  "description": "Sistema Integrado de Cálculos Trabalhistas — RCONT-SCT Soluções Contábeis e Tributárias",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0a1929",
+  "theme_color": "#b8860b",
+  "lang": "pt-BR",
+  "categories": ["finance", "business", "productivity"],
+  "icons": [
+    {
+      "src": "img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "img/logo.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "img/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Tela principal do calculador de folha"
+    },
+    {
+      "src": "img/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Visão desktop com gráfico de análise"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Calcular Folha",
+      "short_name": "Calcular",
+      "description": "Abrir calculador de folha de pagamento",
+      "url": "/index.html#calcular",
+      "icons": [{ "src": "img/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "prefer_related_applications": false
+}
