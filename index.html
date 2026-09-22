@@ -9,7 +9,6 @@
          PWA META TAGS
     ════════════════════════════════════════════════ -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#b8860b">
     <meta name="mobile-web-app-capable" content="yes">
 
     <!-- iOS / Safari PWA -->
@@ -144,6 +143,7 @@
             height: calc(56px + var(--safe-bottom));
             padding-bottom: var(--safe-bottom);
             background: rgba(10, 25, 41, 0.97);
+            -webkit-backdrop-filter: blur(12px);
             backdrop-filter: blur(12px);
             border-top: 1px solid rgba(184, 134, 11, 0.3);
             z-index: 100;
@@ -208,6 +208,7 @@
         /* ─── CARD ────────────────────────────────── */
         .card {
             background: var(--card-bg);
+            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             padding: 30px;
             border-radius: var(--radius);
@@ -340,6 +341,23 @@
         }
         .btn-whatsapp:hover { background: #128C7E; transform: translateY(-2px); }
 
+        .btn-whatsapp-office {
+            display: inline-block;
+            text-decoration: none;
+            padding: 14px 30px;
+            border-radius: 10px;
+            background: #075E54;
+            color: white;
+            font-weight: 600;
+            transition: background 0.3s, transform 0.2s;
+        }
+        .btn-whatsapp-office:hover { background: #095d56; transform: translateY(-2px); }
+
+        .center-gap   { text-align: center; margin: 20px 0; }
+        .center-gap-sm { text-align: center; margin: 10px 0; }
+        .input-gap    { margin: 10px 0; }
+        .footer-gap   { margin-top: 10px; }
+
         /* ─── MISC ────────────────────────────────── */
         .info-box {
             background: rgba(184, 134, 11, 0.15);
@@ -423,7 +441,7 @@
         <img src="img/logo.png" alt="RCONT-SCT Logo" class="shadow-logo">
         <h1>Folha de Pagamento</h1>
         <p>RCONT-SCT | Soluções Contábeis e Tributárias</p>
-        <p style="font-size: 12px; margin-top: 5px;">Sistema Integrado de Cálculos Trabalhistas</p>
+        <p>Sistema Integrado de Cálculos Trabalhistas</p>
     </header>
 
     <div class="card">
@@ -468,10 +486,10 @@
 
         <div class="button-group">
             <button onclick="exportarExcel()" class="btn-excel">
-                <img src="img/exportexcel.ico" width="20" height="20" onerror="this.style.display='none'"> EXPORTAR EXCEL
+                <img src="img/exportexcel.ico" alt="" width="20" height="20" onerror="this.style.display='none'"> EXPORTAR EXCEL
             </button>
             <button onclick="exportarPDF()" class="btn-pdf">
-                <img src="img/exportpdf.ico" width="20" height="20" onerror="this.style.display='none'"> EXPORTAR PDF
+                <img src="img/exportpdf.ico" alt="" width="20" height="20" onerror="this.style.display='none'"> EXPORTAR PDF
             </button>
             <br>
             <button onclick="calcular()">CALCULAR FOLHA COMPLETA</button>
@@ -494,19 +512,17 @@
         </div>
 
         <!-- WhatsApp -->
-        <div style="text-align: center; margin: 20px 0;">
+        <div class="center-gap">
             <label for="whatsappUsuario">Número WhatsApp (com DDI, ex: 5511999998888)</label>
-            <input type="text" id="whatsappUsuario" placeholder="Digite seu número" style="margin: 10px 0;" inputmode="tel">
+            <input type="text" id="whatsappUsuario" placeholder="Digite seu número" class="input-gap" inputmode="tel">
             <a href="javascript:void(0)" onclick="enviarWhatsAppUsuario()" class="btn-whatsapp">
                 📱 Enviar relatório por WhatsApp
             </a>
         </div>
 
         <!-- Botão WhatsApp Escritório -->
-        <div style="text-align: center; margin: 10px 0;">
-            <a href="https://wa.me/5511958930291" target="_blank" rel="noopener"
-               style="display: inline-block; text-decoration: none; padding: 14px 30px; border-radius: 10px;
-                      background: #075E54; color: white; font-weight: 600;">
+        <div class="center-gap-sm">
+            <a href="https://wa.me/5511958930291" target="_blank" rel="noopener" class="btn-whatsapp-office">
                 💬 Falar com o Escritório no WhatsApp
             </a>
         </div>
@@ -525,7 +541,7 @@
             📞 (11) 95893-0291 | 📩 contato@rcont-sct.com.br
         </p>
         <div class="data-hora" id="dataHora"></div>
-        <p style="margin-top: 10px;">&copy; 2026 - Todos os direitos reservados</p>
+        <p class="footer-gap">&copy; 2026 - Todos os direitos reservados</p>
     </footer>
 </div>
 
@@ -925,7 +941,8 @@ function exportarExcel() {
     if (ultimosResultados.proventos === 0) { alert("Por favor, calcule a folha primeiro!"); return; }
 
     const dados = [
-        ["FOLHA DE PAGAMENTO - RCONT-SCT"],
+        ["FOLHA DE PAGAMENTO"],
+        ["RCONT-SCT | Soluções Contábeis e Tributárias"],
         ["Data:", new Date().toLocaleDateString('pt-BR')],
         [],
         ["PROVENTOS", "Valor (R$)"],
@@ -952,15 +969,14 @@ function exportarExcel() {
         [],
         ["SALÁRIO LÍQUIDO",            formatarNumero(ultimosResultados.liquido)],
         [],
-        ["INFORMAÇÕES ADICIONAIS"],
-        ["Redutor Aplicado",           formatarNumero(ultimosResultados.redutor)],
-        ["Regime IR",                  ultimosResultados.regime],
-        ["Base de Cálculo IR",         formatarNumero(ultimosResultados.baseIR)],
-        ["Dedução Dependentes",        formatarNumero(ultimosResultados.dedDependentes)],
+        ["PERCENTUAIS"],
+        [`* Descontos: ${(ultimosResultados.descontos / ultimosResultados.proventos * 100).toFixed(2)}% do Bruto`],
+        [`* Líquido: ${(ultimosResultados.liquido / ultimosResultados.proventos * 100).toFixed(2)}% do Bruto`],
+        [`* Redutor: ${formatar(ultimosResultados.redutor)} (baseado na renda bruta de ${formatar(ultimosResultados.proventos)})`],
         [],
         ["Rosemberg Oliveira – Contador"],
-        ["RCONT-SCT | Soluções Contábeis e Tributárias"],
-        ["(11) 95893-0291 | contato@rcont-sct.com.br"],
+        ["Simulação baseada na legislação vigente 2026"],
+        ["RCONT-SCT | (11) 95893-0291 | contato@rcont-sct.com.br"],
     ];
 
     const wb = XLSX.utils.book_new();
@@ -1044,10 +1060,13 @@ function exportarPDF() {
     y += 15;
 
     doc.setFontSize(10); doc.setTextColor(100, 100, 100);
-    doc.text(`Redutor Aplicado: ${formatar(ultimosResultados.redutor)}`, margin, y); y += 6;
-    doc.text(`Regime IR: ${ultimosResultados.regime}`, margin, y); y += 6;
-    doc.text(`Base de Cálculo IR: ${formatar(ultimosResultados.baseIR)}`, margin, y); y += 6;
-    doc.text(`Dedução Dependentes: ${formatar(ultimosResultados.dedDependentes)}`, margin, y);
+
+    doc.setFont("helvetica", "bold");
+    doc.text("PERCENTUAIS:", margin, y); y += 5;
+    doc.setFont("helvetica", "normal");
+    doc.text(`* Descontos: ${(ultimosResultados.descontos / ultimosResultados.proventos * 100).toFixed(2)}% do Bruto`, margin, y); y += 5;
+    doc.text(`* Líquido: ${(ultimosResultados.liquido / ultimosResultados.proventos * 100).toFixed(2)}% do Bruto`, margin, y); y += 5;
+    doc.text(`* Redutor: ${formatar(ultimosResultados.redutor)} (baseado na renda bruta de ${formatar(ultimosResultados.proventos)})`, margin, y);
 
     doc.setFontSize(8); doc.setTextColor(150, 150, 150);
     doc.text("Rosemberg Oliveira – Contador", pageWidth / 2, 275, { align: "center" });
@@ -1063,14 +1082,52 @@ function exportarPDF() {
 function enviarWhatsAppUsuario() {
     calcular();
     setTimeout(() => {
-        let resumo = document.getElementById("res").innerText   || "";
-        let totals = document.getElementById("soma").innerText  || "";
+        let r = ultimosResultados;
 
-        let mensagem  = "📊 *FOLHA DE PAGAMENTO - RCONT-SCT*\n\n";
-            mensagem += resumo;
-            mensagem += "\n\n" + "=".repeat(30) + "\n\n";
-            mensagem += totals;
-            mensagem += "\n\nPrecisa de ajuda com a folha de pagamento? Fale conosco!\n📞 (11) 95893-0291";
+        let mensagem  = "FOLHA DE PAGAMENTO - RCONT-SCT\n\n";
+
+        mensagem += "PROVENTOS:\n\n";
+        mensagem += "├─ Salário Base: "           + formatar(r.salBase) + "\n";
+        mensagem += "├─ Adic. Noturno: "          + formatar(r.adNoturno) + "\n";
+        mensagem += "├─ Adic. Tempo de Serv.: "   + formatar(r.adTempo) + "\n";
+        mensagem += "├─ Adic. Tempo de Serv. HE: " + formatar(r.adTempoHE) + "\n";
+        mensagem += "├─ DSR Mês: "                + formatar(r.dsr) + "\n";
+        mensagem += "├─ Hora 50% Ref. Noturna: "  + formatar(r.hrRefNot) + "\n";
+        mensagem += "├─ Horário Noturno Reduz.: " + formatar(r.hrRed) + "\n";
+        mensagem += "├─ Hora 50% Noturna: "       + formatar(r.hrPremia) + "\n";
+        mensagem += "├─ Feriado 100% Mês: "       + formatar(r.frdo) + "\n";
+        mensagem += "├─ Folgas Trabalhada: "      + formatar(r.ft) + "\n";
+        mensagem += "└─ Hora 100% Ref. Noturna: " + formatar(r.ref100) + "\n\n";
+
+        mensagem += "DESCONTOS:\n\n";
+        mensagem += "├─ Adiant. Salário: "        + formatar(r.adiantSal) + "\n";
+        mensagem += "├─ Vale Transporte: "        + formatar(r.valeTransp) + "\n";
+        mensagem += "├─ INSS Mês (2026): "        + formatar(r.inss) + "\n";
+        mensagem += "├─ IRPF: "                   + formatar(r.melhorIR) + "\n";
+        mensagem += "└─ Contribuição Assistencial (1%): " + formatar(r.contribAssist) + "\n\n";
+
+        mensagem += "TOTAL PROVENTOS (Renda Bruta): " + formatar(r.proventos) + "\n";
+        mensagem += "TOTAL DESCONTOS: " + formatar(r.descontos) + "\n";
+        mensagem += "SALÁRIO LÍQUIDO: " + formatar(r.liquido) + "\n\n\n";
+
+        mensagem += "REDUTOR (Lei 2026):\n";
+        mensagem += "Renda Bruta Mensal: " + formatar(r.proventos) + "\n";
+        if (r.proventos <= 5000) {
+            mensagem += "Faixa: Até R$ 5.000 → Redução máxima de R$ 312,89 (IR zerado)\n";
+        } else if (r.proventos <= 7350) {
+            mensagem += "Faixa: R$ 5.001 a R$ 7.350 → Redução regressiva\n";
+            mensagem += "Cálculo: R$ 978,62 – (0,133145 × R$ " + r.proventos.toFixed(2) + ")\n";
+        } else {
+            mensagem += "Faixa: Acima de R$ 7.350 → Sem redução\n";
+        }
+        mensagem += "Redutor Aplicado: " + formatar(r.redutor) + "\n\n";
+
+        mensagem += "PERCENTUAIS:\n";
+        mensagem += "* Descontos: " + ((r.descontos / r.proventos) * 100).toFixed(2) + "% do Bruto\n";
+        mensagem += "* Líquido: "   + ((r.liquido / r.proventos) * 100).toFixed(2) + "% do Bruto\n";
+        mensagem += "* Redutor: "   + formatar(r.redutor) + " (baseado na renda bruta de " + formatar(r.proventos) + ")\n\n";
+
+        mensagem += "Precisa de ajuda com a folha de pagamento? Fale conosco!\n📞 (11) 95893-0291";
 
         let numero = document.getElementById("whatsappUsuario").value.trim().replace(/\D/g, '');
         if (!numero) { alert("Por favor, digite um número com DDI (ex: 5511999998888)!"); return; }
