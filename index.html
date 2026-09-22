@@ -688,10 +688,10 @@ function formatarNumero(v) {
 // ══════════════════════════════════════════════
 function calcularINSS(salario) {
     const faixas = [
-        { limite: 1412.00, aliquota: 0.075 },
-        { limite: 2666.68, aliquota: 0.09  },
-        { limite: 4000.03, aliquota: 0.12  },
-        { limite: 7786.02, aliquota: 0.14  }
+        { limite: 1621.00, aliquota: 0.075 },
+        { limite: 2902.84, aliquota: 0.09  },
+        { limite: 4354.27, aliquota: 0.12  },
+        { limite: 8475.55, aliquota: 0.14  }
     ];
     let total = 0, anterior = 0;
     for (let f of faixas) {
@@ -707,11 +707,11 @@ function calcularINSS(salario) {
 // IR PROGRESSIVO
 // ══════════════════════════════════════════════
 function calcularIR(base) {
-    if (base <= 2112.00) return { ir: 0,                              faixa: "Isento"  };
-    if (base <= 2826.65) return { ir: (base * 0.075) - 158.40,       faixa: "7,5%"    };
-    if (base <= 3751.05) return { ir: (base * 0.15)  - 370.40,       faixa: "15%"     };
-    if (base <= 4664.68) return { ir: (base * 0.225) - 651.73,       faixa: "22,5%"   };
-    return                      { ir: (base * 0.275) - 884.96,       faixa: "27,5%"   };
+    if (base <= 2428.80) return { ir: 0,                              faixa: "Isento"  };
+    if (base <= 2826.65) return { ir: (base * 0.075) - 182.16,       faixa: "7,5%"    };
+    if (base <= 3751.05) return { ir: (base * 0.15)  - 394.16,       faixa: "15%"     };
+    if (base <= 4664.68) return { ir: (base * 0.225) - 675.49,       faixa: "22,5%"   };
+    return                      { ir: (base * 0.275) - 908.73,       faixa: "27,5%"   };
 }
 
 // ══════════════════════════════════════════════
@@ -816,7 +816,7 @@ function calcular() {
     var redutorValor   = calcularRedutor(totalProventos);
     var irCompleto     = Math.max(irProgCompleto.ir - redutorValor, 0);
 
-    var baseSimplificado  = Math.max(totalProventos - inss - CONFIG.DESCONTO_SIMPLIFICADO, 0);
+    var baseSimplificado  = Math.max(totalProventos - CONFIG.DESCONTO_SIMPLIFICADO, 0);
     var irProgSimplificado = calcularIR(baseSimplificado);
     var irSimplificado    = Math.max(irProgSimplificado.ir - redutorValor, 0);
 
