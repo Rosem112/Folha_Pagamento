@@ -3,18 +3,19 @@
 // v1.0.0 - Cache-First Strategy + Offline Support
 // ============================================================
 
-const CACHE_NAME = 'rcont-sct-v1.0.0';
-const CACHE_STATIC = 'rcont-sct-static-v1';
+const CACHE_NAME = 'rcont-sct-v1.0.1';
+const CACHE_STATIC = 'rcont-sct-static-v2';
 const CACHE_CDN    = 'rcont-sct-cdn-v1';
 
 // Arquivos locais para cache imediato (app shell)
+// Caminhos relativos: funcionam tanto na raiz quanto em subpasta (GitHub Pages /Folha_Pagamento/)
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/img/logo.png',
-  '/img/icon-192.png',
-  '/img/icon-512.png',
+  './',
+  './index.html',
+  './manifest.json',
+  './img/logo.png',
+  './img/icon-192.png',
+  './img/icon-512.png',
 ];
 
 // Recursos CDN para cache lazy
@@ -87,7 +88,7 @@ async function cacheFirst(request, cacheName) {
     return networkResponse;
   } catch {
     // Offline fallback
-    const fallback = await caches.match('/index.html');
+    const fallback = await caches.match('./index.html') || await caches.match('/Folha_Pagamento/index.html');
     return fallback || new Response('Você está offline. Abra o app enquanto estiver conectado para cachear os recursos.', {
       status: 503,
       headers: { 'Content-Type': 'text/plain; charset=utf-8' }

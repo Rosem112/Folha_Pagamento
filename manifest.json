@@ -22,28 +22,6 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable any"
-    },
-    {
-      "src": "img/logo.png",
-      "sizes": "180x180",
-      "type": "image/png",
-      "purpose": "any"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "img/screenshot-mobile.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Tela principal do calculador de folha"
-    },
-    {
-      "src": "img/screenshot-desktop.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Visão desktop com gráfico de análise"
     }
   ],
   "shortcuts": [
@@ -51,7 +29,7 @@
       "name": "Calcular Folha",
       "short_name": "Calcular",
       "description": "Abrir calculador de folha de pagamento",
-      "url": "/index.html#calcular",
+      "url": "/Folha_Pagamento/index.html#calcular",
       "icons": [{ "src": "img/icon-192.png", "sizes": "192x192" }]
     }
   ],
